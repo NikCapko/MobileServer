@@ -1,11 +1,22 @@
 
 public class Category {
 
-	public Category(String categoryName) {
+	private int id;
+	private String categoryName;
+
+	public Category(int id, String categoryName) {
+		super();
+		this.id = id;
 		this.categoryName = categoryName;
 	}
 
-	private String categoryName;
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getCategoryName() {
 		return categoryName;
@@ -17,6 +28,6 @@ public class Category {
 
 	@Override
 	public String toString() {
-		return "categoryName:" + categoryName;
+		return String.format("{\"id\":%s, \"categoryName\":\"%s\"}", String.valueOf(id), categoryName);
 	}
 }

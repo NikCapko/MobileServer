@@ -14,6 +14,7 @@ public class MobileServer {
 		try {
 			HttpServer server = HttpServer.create(new InetSocketAddress(8080), 1);
 			server.createContext("/categories", new CategoriesHandler());
+			server.createContext("/sigin", new SignInHandler());
 			server.setExecutor(null);
 			server.start();
 			System.out.println("Server start...");
@@ -37,7 +38,7 @@ public class MobileServer {
 	}
 
 	public static void writeResponse(HttpExchange t, String str) {
-		str = "{ data:" + str + "}";
+		str = String.format("{\"data\":%s}", str);
 		byte[] resp = str.getBytes();
 		try {
 			t.sendResponseHeaders(200, resp.length);
@@ -50,13 +51,10 @@ public class MobileServer {
 	}
 
 	public static <T> String getJsonArray(List<T> list) {
-		String result = "[";
+		StringBuilder result = new StringBuilder();
 		for (Object o : list) {
-			result += o.toString() + ",";
+			result.append(o.toString()).append(",");
 		}
-
-		result = result.substring(0, result.length() - 1) + "]";
-
-		return result;
+		return String.format("[%s]", result.toString().substring(0, result.length() - 1));
 	}
 }
